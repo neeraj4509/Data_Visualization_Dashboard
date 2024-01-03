@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Visualization with Date Range Picker</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css">
+  <script src="app.js"></script>
+</head>
+
+
+<body>
+  
+  <div id="greetingContainer">
+    <span id="greeting">Hello</span>
+  </div>
+
+
+  <div class="container">
+      <!-- Age Filter -->
+      <div class="filter-container">
+        <label for="ageFilter">Age:</label>
+        <select id="ageFilter">
+          <option value="all">All</option>
+          <option value="15-25">15-25</option>
+          <option value=">25">>25</option>
+        </select>
+      </div>
+
+      <!-- Gender Filter -->
+      <div class="filter-container">
+        <label for="genderFilter">Gender:</label>
+        <select id="genderFilter">
+          <option value="all">All</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <!-- Date Range Selector -->
+      <div class="date-range-selector">
+        <input type="text" class="date-input" id="datePicker" readonly>
+        <button class="date-button" onclick="getSelectedRange()">Apply</button>
+      </div>
+      
+      <button onclick="resetPreferences()">Reset Preferences</button>
+      <!-- Bar Graph Container -->
+      <div id="chart" class="mt-4"></div>
+  
+      <!-- Line Graph Container -->
+      <div id="lineChart" class="mt-4"></div>
+
+      <div class="logout-container">
+        <button onclick="logout()">Logout</button>
+      </div>
+      
+      <button id="shareChartButton" onclick="shareChart()" style="display: none;">Share Chart</button>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.js"></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="cookieManager.js"></script>
+
+  <script src="app.js"></script>
+
+  <script>
+    
+    var userName = sessionStorage.getItem('userName');
+
+
+    if(!userName){
+      console.log("login page open");
+      sessionStorage.setItem('redirectAfterLogin', window.location.href);
+      window.location.href = 'login.html';
+    }
+
+    else{
+        
+      document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ageFilter = urlParams.get('age');
+        const genderFilter = urlParams.get('gender');
+        const dateRangeFilter = urlParams.get('dateRange');
+
+        if (ageFilter && genderFilter && dateRangeFilter) {
+          $('#ageFilter').val(ageFilter);
+          $('#genderFilter').val(genderFilter);
+          $('#datePicker').val(dateRangeFilter);
+          
+          drawChart(dateRangeFilter, ageFilter, genderFilter);
+        }
+      });
+      
+    }
+    
+    
+  </script>
+  
+
+</body>
+</html>
