@@ -9,10 +9,10 @@ const port = 3027;
 
 // Create MySQL connection
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'id21748641_demon',
-  password: 'Neeraj@4509',
-  database: 'id21748641_datavizdash',
+  host: 'sql213.infinityfree.com',
+  user: 'if0_35726374',
+  password: 'NOW8sE4JvS0JI',
+  database: 'if0_35726374_demon',
 });
 
 
