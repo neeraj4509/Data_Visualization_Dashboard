@@ -1,46 +1,35 @@
+import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+
 function login() {
   var loginEmail = document.getElementById('loginEmail').value;
   var loginPassword = document.getElementById('loginPassword').value;
 
-  // Create an object with login data
-  var loginData = {
-    email: loginEmail,
-    password: loginPassword
-  };
-
-  // Make a POST request to the server
-  fetch('/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(loginData)
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Handle the response from the server
-    if (data.error) {
-      // Server responded with an error message
-      alert(data.message);
-    } else {
+  signInWithEmailAndPassword(window.firebaseAuth, loginEmail, loginPassword)
+    .then((userCredential) => {
       // Login successful
-      alert(data.message);
-      
-      sessionStorage.setItem('userName', data.userName);
+      alert("Login successful.");
 
-       
+      // Set session storage item
+      sessionStorage.setItem('userName', userCredential.user.displayName || userCredential.user.email);
+
+      // Redirect after successful login
       const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
       if (redirectUrl) {
         window.location.href = redirectUrl;
         sessionStorage.removeItem('redirectAfterLogin'); // Clear the stored URL
       } else {
-        window.location.href = 'index.html'; // Default redirection
+        window.location.href = 'charts.html'; // Default redirection
       }
-
-    }
-  })
-  .catch(error => {
-    console.error('Error during login:', error);
-    alert('Error during login. Please try again.');
-  });
+    })
+    .catch((error) => {
+      // Handle errors here
+      console.error('Error during login:', error);
+      alert('Error during login. ' + error.message);
+    });
 }
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.getElementById('loginButton').addEventListener('click', login);
+});
