@@ -5,6 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Authentication</title>
   <link rel="stylesheet" href="style.css">
+  
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    
+    const firebaseConfig = {
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "datavizdash.appspot.com",
+      messagingSenderId: "",
+      appId: "",
+      measurementId: ""
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    window.firebaseAuth = auth;
+  </script>
+    
+  </script> 
 </head>
 
 <body>
@@ -25,18 +51,14 @@
         <label for="confirmPassword">Confirm Password:</label>
         <input type="password" id="confirmPassword" name="confirmPassword" required>
     
-        <button type= "button" onclick="signUp()">Sign Up</button>
+        <button type= "button" id="signupButton">Sign Up</button>
 
       </form>
       <p>Already have an account? <a href="login.html" onclick="showLoginForm()">Login</a></p> 
     </div>
   </div>
 
-<!-- <script src="auth.js"></script>
-<script> src="route.js"</script> -->
-  <script src = "signup.js">
 
-
-  </script>
+  <script type="module" src = "signup.js"></script>
 </body>
 </html>
